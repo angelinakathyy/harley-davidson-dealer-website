@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harley-Davidson Dealer</title>
+  <style>
+    :root {
+      --black: #111111;
+      --gray-900: #1a1a1a;
+      --gray-700: #3a3a3a;
+      --gray-500: #666;
+      --red: #c1121f;
+      --red-dark: #8b0e16;
+      --gold: #d4af37;
+      --white: #ffffff;
+      --cream: #f5f1eb;
+      --shadow: 0 18px 45px rgba(0,0,0,0.22);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--black);
+      background: #f8f8f8;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { margin: 0; padding: 0; list-style: none; }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      color: var(--gray-700);
+      margin-bottom: 36px;
+      max-width: 650px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 28px;
+      background: var(--red);
+      color: var(--white);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.45);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(17,17,17,0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 80px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--red), #ef4444);
+      font-size: 1.2rem;
+      font-weight: 800;
+      box-shadow: 0 0 25px rgba(193,18,31,0.6);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.96rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a {
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: #fff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      display: flex;
+      align-items: center;
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.72) 10%, rgba(0,0,0,0.48) 45%, rgba(0,0,0,0.15) 100%),
+        url('https://images.unsplash.com/photo-1558980664-10e7170b5df9?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      padding: 90px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .hero-copy p {
+      margin: 22px 0 30px;
+      font-size: 1.08rem;
+      max-width: 560px;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 18px;
+      padding-top: 24px;
+      max-width: 520px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 18px 16px;
+      min-height: 110px;
+      backdrop-filter: blur(6px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      font-size: 0.77rem;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-card {
+      width: min(420px, 100%);
+      background: rgba(20,20,20,0.72);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card .badge {
+      display: inline-block;
+      padding: 8px 12px;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.5);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .bike-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 18px;
+    }
+
+    .bike-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .bike-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+      color: var(--white);
+    }
+
+    .bike-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .bike-price strong {
+      font-size: 1.7rem;
+      color: var(--gold);
+    }
+
+    .bike-price span {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about {
+      padding: 110px 0 60px;
+      background: var(--cream);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+      min-height: 540px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .floating-note {
+      position: absolute;
+      right: 28px;
+      bottom: 26px;
+      background: rgba(17,17,17,0.9);
+      color: var(--white);
+      padding: 20px 22px;
+      width: 220px;
+      box-shadow: var(--shadow);
+    }
+
+    .floating-note strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .about-copy p {
+      color: var(--gray-700);
+      margin: 0 0 18px;
+      font-size: 1.02rem;
+    }
+
+    .feature-list {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(160px, 1fr));
+      gap: 18px;
+    }
+
+    .feature {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 16px;
+      border-radius: 14px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+
+    .inventory {
+      padding: 90px 0 110px;
+      background: #f0f0f0;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .filter-btn {
+      padding: 12px 18px;
+      background: transparent;
+      border: 1px solid rgba(17,17,17,0.15);
+      color: var(--black);
+      cursor: pointer;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: 0.2s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .bike-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .bike-item {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+    }
+
+    .bike-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.08);
+    }
+
+    .bike-image {
+      position: relative;
+      height: 260px;
+      overflow: hidden;
+    }
+
+    .bike-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .bike-item:hover .bike-image img {
+      transform: scale(1.04);
+    }
+
+    .tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(17,17,17,0.9);
+      color: var(--white);
+      padding: 8px 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .bike-info {
+      padding: 22px 20px 24px;
+    }
+
+    .bike-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--gray-700);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .bike-info h3 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      line-height: 1.15;
+    }
+
+    .bike-price-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--red);
+    }
+
+    .specs {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .specs strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--black);
+    }
+
+    .specs span {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-700);
+    }
+
+    .services {
+      padding: 90px 0 120px;
+      background: #111;
+      color: var(--white);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .service-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 28px 22px;
+    }
+
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(193,18,31,0.12);
+      border: 1px solid rgba(193,18,31,0.4);
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .service-card h3 {
+      margin: 0 0 16px;
+      font-size: 1.5rem;
+    }
+
+    .service-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .testimonial {
+      padding: 110px 0 100px;
+      background: var(--cream);
+    }
+
+    .testimonial-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .quote-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 28px 22px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+    }
+
+    .stars {
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 18px;
+    }
+
+    .quote-card p {
+      margin: 0 0 22px;
+      color: var(--gray-700);
+      font-size: 1rem;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1f1f1f, #4a4a4a);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .person strong {
+      display: block;
+      font-size: 0.98rem;
+    }
+
+    .person span {
+      color: var(--gray-500);
+      font-size: 0.82rem;
+    }
+
+    .contact {
+      padding: 0 0 110px;
+      background: linear-gradient(180deg, #f4f4f4 0%, #efefef 100%);
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-info {
+      background: linear-gradient(135deg, #111, #222);
+      color: var(--white);
+      padding: 56px 42px;
+    }
+
+    .contact-info h3 {
+      margin: 0 0 18px;
+      font-size: clamp(2rem, 4vw, 2.7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .contact-list {
+      margin-top: 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .contact-item strong {
+      color: var(--white);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-form {
+      padding: 46px 32px;
+      background: #fff;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-700);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #f7f7f7;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--black);
+      resize: vertical;
+    }
+
+    .field textarea {
+      min-height: 120px;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: 2px solid rgba(193,18,31,0.25);
+      border-color: var(--red);
+    }
+
+    footer {
+      background: #0d0d0d;
+      color: rgba(255,255,255,0.7);
+      padding: 28px 0;
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .nav-links {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: 80px;
+        background: rgba(17,17,17,0.96);
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 20px 16px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .hero-content,
+      .about-grid,
+      .contact-box {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .bike-grid,
+      .services-grid,
+      .testimonial-wrap {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        min-height: 680px;
+      }
+
+      .hero-stats,
+      .feature-list,
+      .bike-grid,
+      .services-grid,
+      .testimonial-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .contact-form {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#top">
+        <span class="logo-mark">H</span>
+        <span>Harley</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">Tentang</a>
+        <a href="#inventory">Motor</a>
+        <a href="#services">Layanan</a>
+        <a href="#reviews">Ulasan</a>
+        <a href="#contact">Kontak</a>
+      </nav>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow">Bebas dari rutinitas</span>
+          <h1>Ride<br>Free</h1>
+          <p>
+            Dealer resmi Harley-Davidson dengan motor premium, layanan servis yang terstandarisasi,
+            dan pengalaman berkendara yang tak terlupakan.
+          </p>
+          <div class="cta-row">
+            <a href="#inventory" class="btn">Lihat Koleksi</a>
+            <a href="#contact" class="btn secondary">Booking Test Ride</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>1.2K+</strong>
+              <span>Motor Terjual</span>
+            </div>
+            <div class="stat">
+              <strong>18+</strong>
+              <span>Tahun Pengalaman</span>
+            </div>
+            <div class="stat">
+              <strong>4.9/5</strong>
+              <span>Rating Pelanggan</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="badge">Best Seller 2026</div>
+          <div class="bike-card">
+            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80" alt="Harley model" />
+            <h3>Street Glide</h3>
+            <div class="bike-price">
+              <span>Mulai dari</span>
+              <strong>Rp 485 Jt</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Harley dealership" />
+          <div class="floating-note">
+            <strong>24/7</strong>
+            Dukungan Servis & Konsultasi
+          </div>
+        </div>
+
+        <div class="about-copy">
+          <span class="eyebrow" style="color: var(--red);">Tentang Kami</span>
+          <h2 class="section-title">Dealer Motor Harley-Davidson yang mengutamakan pengalaman.</h2>
+          <p>
+            Kami adalah dealer motor Harley-Davidson yang menghadirkan kombinasi antara
+            performa, gaya, dan layanan premium untuk para rider sejati.
+          </p>
+          <p>
+            Dari test ride, pengajuan kredit, hingga perawatan rutin, kami membantu Anda
+            menemukan motor yang sesuai dengan gaya hidup dan kebutuhan berkendara Anda.
+          </p>
+
+          <div class="feature-list">
+            <div class="feature">
+              <strong>100%</strong>
+              Unit Original
+            </div>
+            <div class="feature">
+              <strong>5 Tahun</strong>
+              Layanan Servis
+            </div>
+            <div class="feature">
+              <strong>Flexible</strong>
+              Pembiayaan
+            </div>
+            <div class="feature">
+              <strong>Fast</strong>
+              Proses Kredit
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="inventory" id="inventory">
+      <div class="container">
+        <span class="eyebrow" style="color: var(--red);">Koleksi Kami</span>
+        <h2 class="section-title">Pilihan Harley yang siap menantang hari ini</h2>
+        <p class="section-subtitle">
+          Temukan berbagai pilihan motor Harley-Davidson yang siap membawa Anda menjelajah
+          kota, jalan tol, hingga petualangan panjang.
+        </p>
+
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="sport">Sport</button>
+          <button class="filter-btn" data-filter="cruiser">Cruiser</button>
+          <button class="filter-btn" data-filter="touring">Touring</button>
+        </div>
+
+        <div class="bike-grid">
+          <article class="bike-item" data-category="sport">
+            <div class="bike-image">
+              <img src="https://images.unsplash.com/photo-1558980664-10e7170b5df9?auto=format&fit=crop&w=1200&q=80" alt="Sportster S" />
+              <span class="tag">Sport</span>
+            </div>
+            <div class="bike-info">
+              <div class="bike-meta">
+                <span>2026</span>
+                <span>2.0L</span>
+              </div>
+              <h3>Sportster S</h3>
+              <div class="bike-price-box">
+                <span class="price">Rp 365 Jt</span>
+                <a href="#contact" class="btn" style="padding: 12px 16px; font-size: 0.72rem;">Booking</a>
+              </div>
+              <div class="specs">
+                <div>
+                  <strong>121</strong>
+                  <span>HP</span>
+                </div>
+                <div>
+                  <strong>7.2s</strong>
+                  <span>0-100</span>
+                </div>
+                <div>
+                  <strong>210</strong>
+                  <span>Km/h</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="bike-item" data-category="cruiser">
+            <div class="bike-image">
+              <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?auto=format&fit=crop&w=1200&q=80" alt="Nightster" />
+              <span class="tag">Cruiser</span>
+            </div>
+            <div class="bike-info">
+              <div class="bike-meta">
+                <span>2026</span>
+                <span>1.8L</span>
+              </div>
+              <h3>Nightster</h3>
+              <div class="bike-price-box">
+                <span class="price">Rp 425 Jt</span>
+                <a href="#contact" class="btn" style="padding: 12px 16px; font-size: 0.72rem;">Booking</a>
+              </div>
+              <div class="specs">
+                <div>
+                  <strong>115</strong>
+                  <span>HP</span>
+                </div>
+                <div>
+                  <strong>7.8s</strong>
+                  <span>0-100</span>
+                </div>
+                <div>
+                  <strong>196</strong>
+                  <span>Km/h</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="bike-item" data-category="touring">
+            <div class="bike-image">
+              <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80" alt="Road Glide" />
+              <span class="tag">Touring</span>
+            </div>
+            <div class="bike-info">
+              <div class="bike-meta">
+                <span>2026</span>
+                <span>3.0L</span>
+              </div>
+              <h3>Road Glide</h3>
+              <div class="bike-price-box">
+                <span class="price">Rp 640 Jt</span>
+                <a href="#contact" class="btn" style="padding: 12px 16px; font-size: 0.72rem;">Booking</a>
+              </div>
+              <div class="specs">
+                <div>
+                  <strong>127</strong>
+                  <span>HP</span>
+                </div>
+                <div>
+                  <strong>8.1s</strong>
+                  <span>0-100</span>
+                </div>
+                <div>
+                  <strong>220</strong>
+                  <span>Km/h</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="container">
+        <span class="eyebrow" style="color: var(--gold);">Layanan Premium</span>
+        <h2 class="section-title">Semua kebutuhan rider ada di sini</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.72);">
+          Kami menawarkan layanan yang dirancang untuk menjaga performa dan kenyamanan motor Anda.
+        </p>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon">⚙️</div>
+            <h3>Servis & Perawatan</h3>
+            <p>
+              Tim servis profesional untuk pemeliharaan berkala, pengecekan mesin, dan
+              perawatan komponen penting.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">💳</div>
+            <h3>Financing</h3>
+            <p>
+              Proses kredit yang cepat dan fleksibel dengan pilihan tenor yang sesuai kebutuhan Anda.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">🏍️</div>
+            <h3>Test Ride</h3>
+            <p>
+              Rasakan sensasi berkendara Harley secara langsung dengan survey dan bimbingan dari ahli kami.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonial" id="reviews">
+      <div class="container">
+        <span class="eyebrow" style="color: var(--red);">Testimoni</span>
+        <h2 class="section-title">Apa kata pelanggan kami</h2>
+
+        <div class="testimonial-wrap">
+          <article class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p>
+              “Pelayanan sangat ramah. Proses kredit cepat, dan pembelian motor terasa lancar
+              dari awal sampai akhir.”
+            </p>
+            <div class="person">
+              <div class="avatar">A</div>
+              <div>
+                <strong>Andi Pratama</strong>
+                <span>Owner Street Glide</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p>
+              “Tim servisnya profesional, detail, dan sangat berpengalaman. Motor saya selalu
+              dalam kondisi prima saat dipakai touring.”
+            </p>
+            <div class="person">
+              <div class="avatar">R</div>
+              <div>
+                <strong>Raka S.</strong>
+                <span>Touring Rider</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p>
+              “Koleksi motornya keren dan pilihan kreditnya fleksibel. Sepanjang proses,
+              saya merasa sangat dibantu dengan baik.”
+            </p>
+            <div class="person">
+              <div class="avatar">D</div>
+              <div>
+                <strong>Dimas K.</strong>
+                <span>New Harley Owner</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <div class="contact-info">
+            <span class="eyebrow" style="color: var(--gold);">Hubungi Kami</span>
+            <h3>Siap bantu Anda menemukan motor impian.</h3>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <span>📍</span>
+                <div>
+                  <strong>Lokasi</strong>
+                  Jl. Raya Cikini No. 87, Jakarta Pusat
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <span>📞</span>
+                <div>
+                  <strong>Telepon</strong>
+                  +62 21 555 0188
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <span>✉️</span>
+                <div>
+                  <strong>Email</strong>
+                  sales@harleydealer.id
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <span>🕒</span>
+                <div>
+                  <strong>Jam Operasional</strong>
+                  Senin - Minggu, 09.00 - 21.00
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <form id="leadForm">
+              <div class="field">
+                <label for="name">Nama</label>
+                <input id="name" type="text" placeholder="Masukkan nama Anda" required />
+              </div>
+
+              <div class="field">
+                <label for="phone">Nomor Telepon</label>
+                <input id="phone" type="tel" placeholder="Contoh: 081234567890" required />
+              </div>
+
+              <div class="field">
+                <label for="interest">Minat Motor</label>
+                <select id="interest">
+                  <option>Sportster S</option>
+                  <option>Nightster</option>
+                  <option>Road Glide</option>
+                  <option>Custom Order</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="message">Pesan</label>
+                <textarea id="message" placeholder="Ceritakan kebutuhan Anda"></textarea>
+              </div>
+
+              <button type="submit" class="btn">Kirim Permintaan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-wrap">
+      <div>© 2026 Harley-Davidson Dealer Indonesia</div>
+      <div class="footer-links">
+        <a href="#about">Tentang</a>
+        <a href="#inventory">Koleksi</a>
+        <a href="#services">Layanan</a>
+        <a href="#contact">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.dataset.filter;
+        const bikes = document.querySelectorAll('.bike-item');
+
+        bikes.forEach(item => {
+          const isVisible = filter === 'all' || item.dataset.category === filter;
+          item.style.display = isVisible ? 'block' : 'none';
+        });
+      });
+    });
+
+    document.getElementById('leadForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      alert(`Terima kasih, ${name || 'pelanggan'}! Permintaan Anda telah dikirim ke tim sales kami.`);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
